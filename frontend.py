@@ -2400,11 +2400,38 @@ def api_error_message(response):
 def valid_account_password(password):
     return len(password) >= 8 and bool(re.search(r"[A-Za-z]", password)) and bool(re.search(r"\d", password))
 
+def get_query_params():
+    if hasattr(st, "query_params"):
+        return dict(st.query_params)
+    return st.experimental_get_query_params()
+
 def get_query_param(name):
-    value = st.query_params.get(name)
+    value = get_query_params().get(name)
     if isinstance(value, list):
         return value[0] if value else None
     return value
+
+def set_query_param(name, value):
+    if hasattr(st, "query_params"):
+        st.query_params[name] = value
+        return
+    params = get_query_params()
+    params[name] = value
+    st.experimental_set_query_params(**params)
+
+def remove_query_param(name):
+    if hasattr(st, "query_params"):
+        st.query_params.pop(name, None)
+        return
+    params = get_query_params()
+    params.pop(name, None)
+    st.experimental_set_query_params(**params)
+
+def clear_query_params():
+    if hasattr(st, "query_params"):
+        st.query_params.clear()
+        return
+    st.experimental_set_query_params()
 
 
 SAMPLE_FASTA_CONTENT = """>sample_globin|Globin-like domain\nMGDVEKGKKIFVQKCAQCHTVEKGGKHKTGPNLHGLFGRKTGQAPGFSYTDANKNKGITWKEETLMEYLENPKKYIPGTKMIFAGIKKKKEERADLIAYLKKATNE\n\n>sample_zinc_finger|Zinc finger domain\nACQRCGPKCYATKSIQKAHQGTVH\n\n>sample_kinase|Protein kinase domain\nMGKTGIVTKKSRGQGITVKKVSDDLEVTLKDLGKATKGLGGSDSAKLGLSVVTRIPANKGQPGNPMVPIIIYFNHPDLSGTFEGSGHPLVGKPNHVIYQPGENRPGSDGYSTIIVKLPQSQVMLGPGKGDFGAVVIQERDMNQFSKHEVGLDPHKRVGVDVVMIKDQAVVTVPGKTGPKSIVTGSDVSIKREEGQATGQKVVFTKRGDLYVAGYPETGQYVGDSGGPLVGKSSVLMPGKTIMDEYTAG\n\n>sample_immunoglobulin|Immunoglobulin domain\nDIVMTQSPLSSSASLGDRVTITCRASQSISSYLNWYQQKPGQAPKRLIYSSNIYHDWLNGYTLSYASVWYQQKPGQAPLRLIYFTDYWGQGTLVTVSS\n\n>sample_transmembrane|Transmembrane helix\nMGLAILAALALMALAAALAAALAAALAA\n\n>sample_serine_protease|Serine protease domain\nIVGGYTCGANTVPYQVSLNSGYHFCGGSLINSDGTHHVSYTKKPGTNIRYSPNIVGPYLQPWDVSIKKGSEDPNQGSLRPVGGGTVQGDSGGPLVQGFTVFGPRVSVGGRFVLTAAHIMRQGIVGGHSITKQMFDRSLHSNDPGELKVKGHNVSRAGDLGVRVFVYGGHSTYPTGPKVASKEPVFINKYDTGGTYRLADLGYGGHSVDSKDVVYNYT"""
@@ -2451,7 +2478,7 @@ def persist_login(data):
     if data.get("user", {}).get("role") == "admin":
         st.session_state.nav_page = "Home"
         st.session_state.show_upload_panel = False
-    st.query_params["auth_token"] = data["access_token"]
+    set_query_param("auth_token", data["access_token"])
 
 def clear_password_reset_state():
     st.session_state.reset_password_token = None
@@ -2459,12 +2486,12 @@ def clear_password_reset_state():
     st.session_state.reset_password_notice = None
     st.session_state.reset_code = None
     st.session_state.pop("reset_password_email_input", None)
-    st.query_params.pop("reset_token", None)
+    remove_query_param("reset_token")
 
 def restore_password_reset_from_url():
     token = get_query_param("reset_token")
     if token:
-        st.query_params.pop("reset_token", None)
+        remove_query_param("reset_token")
 
 def restore_login_from_url():
     if st.session_state.authenticated:
@@ -2493,9 +2520,9 @@ def restore_login_from_url():
             }
             st.session_state.authenticated = True
         else:
-            st.query_params.pop("auth_token", None)
+            remove_query_param("auth_token")
     except Exception:
-        st.query_params.pop("auth_token", None)
+        remove_query_param("auth_token")
 
 def logout():
     st.session_state.authenticated = False
@@ -2504,7 +2531,7 @@ def logout():
     st.session_state.user_data = {}
     st.session_state.history = []
     st.session_state.profile_cache_token = None
-    st.query_params.clear()
+    clear_query_params()
     st.rerun()
 
 restore_password_reset_from_url()
