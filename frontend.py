@@ -2835,7 +2835,7 @@ def clear_query_params():
     st.experimental_set_query_params()
 
 
-SAMPLE_FASTA_CONTENT = """>sample_globin|Globin-like domain\nMGDVEKGKKIFVQKCAQCHTVEKGGKHKTGPNLHGLFGRKTGQAPGFSYTDANKNKGITWKEETLMEYLENPKKYIPGTKMIFAGIKKKKEERADLIAYLKKATNE\n\n>sample_zinc_finger|Zinc finger domain\nACQRCGPKCYATKSIQKAHQGTVH\n\n>sample_kinase|Protein kinase domain\nMGKTGIVTKKSRGQGITVKKVSDDLEVTLKDLGKATKGLGGSDSAKLGLSVVTRIPANKGQPGNPMVPIIIYFNHPDLSGTFEGSGHPLVGKPNHVIYQPGENRPGSDGYSTIIVKLPQSQVMLGPGKGDFGAVVIQERDMNQFSKHEVGLDPHKRVGVDVVMIKDQAVVTVPGKTGPKSIVTGSDVSIKREEGQATGQKVVFTKRGDLYVAGYPETGQYVGDSGGPLVGKSSVLMPGKTIMDEYTAG\n\n>sample_immunoglobulin|Immunoglobulin domain\nDIVMTQSPLSSSASLGDRVTITCRASQSISSYLNWYQQKPGQAPKRLIYSSNIYHDWLNGYTLSYASVWYQQKPGQAPLRLIYFTDYWGQGTLVTVSS\n\n>sample_transmembrane|Transmembrane helix\nMGLAILAALALMALAAALAAALAAALAA\n\n>sample_serine_protease|Serine protease domain\nIVGGYTCGANTVPYQVSLNSGYHFCGGSLINSDGTHHVSYTKKPGTNIRYSPNIVGPYLQPWDVSIKKGSEDPNQGSLRPVGGGTVQGDSGGPLVQGFTVFGPRVSVGGRFVLTAAHIMRQGIVGGHSITKQMFDRSLHSNDPGELKVKGHNVSRAGDLGVRVFVYGGHSTYPTGPKVASKEPVFINKYDTGGTYRLADLGYGGHSVDSKDVVYNYT"""
+SAMPLE_FASTA_CONTENT = ">sample_globin|Globin-like domain\nMGDVEKGKKIFVQKCAQCHTVEKGGKHKTGPNLHGLFGRKTGQAPGFSYTDANKNKGITWKEETLMEYLENPKKYIPGTKMIFAGIKKKKEERADLIAYLKKATNE\n\n>sample_zinc_finger|Zinc finger domain\nACQRCGPKCYATKSIQKAHQGTVH\n\n>sample_kinase|Protein kinase domain\nMGKTGIVTKKSRGQGITVKKVSDDLEVTLKDLGKATKGLGGSDSAKLGLSVVTRIPANKGQPGNPMVPIIIYFNHPDLSGTFEGSGHPLVGKPNHVIYQPGENRPGSDGYSTIIVKLPQSQVMLGPGKGDFGAVVIQERDMNQFSKHEVGLDPHKRVGVDVVMIKDQAVVTVPGKTGPKSIVTGSDVSIKREEGQATGQKVVFTKRGDLYVAGYPETGQYVGDSGGPLVGKSSVLMPGKTIMDEYTAG\n\n>sample_immunoglobulin|Immunoglobulin domain\nDIVMTQSPLSSSASLGDRVTITCRASQSISSYLNWYQQKPGQAPKRLIYSSNIYHDWLNGYTLSYASVWYQQKPGQAPLRLIYFTDYWGQGTLVTVSS\n\n>sample_transmembrane|Transmembrane helix\nMGLAILAALALMALAAALAAALAAALAA\n\n>sample_serine_protease|Serine protease domain\nIVGGYTCGANTVPYQVSLNSGYHFCGGSLINSDGTHHVSYTKKPGTNIRYSPNIVGPYLQPWDVSIKKGSEDPNQGSLRPVGGGTVQGDSGGPLVQGFTVFGPRVSVGGRFVLTAAHIMRQGIVGGHSITKQMFDRSLHSNDPGELKVKGHNVSRAGDLGVRVFVYGGHSTYPTGPKVASKEPVFINKYDTGGTYRLADLGYGGHSVDSKDVVYNYT"""""
 
 def parse_fasta_string_simple(fasta_string: str):
     proteins = []
@@ -3772,6 +3772,45 @@ if st.session_state.show_sidebar:
 st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('<div class="st-key-app_header">', unsafe_allow_html=True)
+st.markdown(
+    """
+    <style>
+    .stApp .st-key-app_header button,
+    .stApp .st-key-app_header button *,
+    .stApp .st-key-app_header .stButton > button,
+    .stApp .st-key-app_header .stFormSubmitButton > button,
+    .stApp .st-key-app_header .stDownloadButton > button {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+
+    .stApp .st-key-app_header .stButton > button,
+    .stApp .st-key-app_header .stFormSubmitButton > button,
+    .stApp .st-key-app_header .stDownloadButton > button {
+        background: #0f766e !important;
+        border: 1px solid #0f766e !important;
+    }
+
+    .stApp .st-key-app_header .stButton > button:hover,
+    .stApp .st-key-app_header .stFormSubmitButton > button:hover,
+    .stApp .st-key-app_header .stDownloadButton > button:hover {
+        background: #115e59 !important;
+        border-color: #115e59 !important;
+    }
+
+    .stApp .st-key-app_header .stButton > button p,
+    .stApp .st-key-app_header .stButton > button span,
+    .stApp .st-key-app_header .stFormSubmitButton > button p,
+    .stApp .st-key-app_header .stFormSubmitButton > button span,
+    .stApp .st-key-app_header .stDownloadButton > button p,
+    .stApp .st-key-app_header .stDownloadButton > button span {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
 with st.container():
     menu_col, brand_col, search_col, account_col = st.columns([0.5, 3.15, 5.35, 1.45])
     with menu_col:
