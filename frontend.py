@@ -232,6 +232,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 API_URL = os.getenv("API_URL", "http://localhost:8000")
+AUTH_REQUEST_TIMEOUT = int(os.getenv("AUTH_REQUEST_TIMEOUT", "90"))
 
 # Ensure form submit buttons have white text on older Streamlit builds
 st.markdown("""
@@ -2794,6 +2795,20 @@ def api_error_message(response):
         pass
     return response.text or "Request failed."
 
+def request_exception_message(exc):
+    if isinstance(exc, requests.Timeout):
+        return (
+            "The backend did not respond in time. If this is deployed, check that "
+            "API_URL points to your live FastAPI service and wait a moment if the "
+            "backend is waking up from sleep."
+        )
+    if isinstance(exc, requests.ConnectionError):
+        return (
+            "Could not connect to the backend. Check that API_URL is set correctly "
+            "and that the FastAPI server is running."
+        )
+    return f"Backend request failed: {exc}"
+
 def valid_account_password(password):
     return len(password) >= 8 and bool(re.search(r"[A-Za-z]", password)) and bool(re.search(r"\d", password))
 
@@ -3435,6 +3450,77 @@ def render_domain_knowledge_cards(predictions):
         """, unsafe_allow_html=True)
 
 # ---------- AUTHENTICATION PAGE ----------
+st.markdown("""
+<style>
+    .stApp .stFormSubmitButton button,
+    .stApp .stFormSubmitButton button *,
+    .stApp .stFormSubmitButton button p,
+    .stApp .stFormSubmitButton button span,
+    .stApp .stFormSubmitButton button div,
+    .stApp .stFormSubmitButton button [data-testid="stMarkdownContainer"],
+    .stApp .stFormSubmitButton button [data-testid="stMarkdownContainer"] *,
+    .stApp .stButton button,
+    .stApp .stButton button *,
+    .stApp .stButton button p,
+    .stApp .stButton button span,
+    .stApp .stButton button div,
+    .stApp .stButton button [data-testid="stMarkdownContainer"],
+    .stApp .stButton button [data-testid="stMarkdownContainer"] * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        opacity: 1 !important;
+        text-shadow: none !important;
+    }
+
+    .stApp .stFormSubmitButton button,
+    .stApp .stButton button {
+        background: linear-gradient(135deg, #0f766e 0%, #115e59 100%) !important;
+        border: 1px solid #0f766e !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+
+    .stApp .stFormSubmitButton button:hover,
+    .stApp .stButton button:hover {
+        background: #115e59 !important;
+        border-color: #115e59 !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+
+    .stApp .stFormSubmitButton button:disabled,
+    .stApp .stButton button:disabled,
+    .stApp .stFormSubmitButton button:disabled *,
+    .stApp .stButton button:disabled * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        opacity: 1 !important;
+    }
+
+    .stApp .st-key-forgot_password_button button,
+    .stApp .st-key-back_to_login_button button,
+    .stApp .st-key-didnt_get_code_button button {
+        background: #0f766e !important;
+        border: 1px solid #0f766e !important;
+        border-radius: 999px !important;
+        padding: 0.7rem 1.2rem !important;
+        min-height: 2.8rem !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        box-shadow: 0 10px 24px rgba(15, 118, 110, 0.16) !important;
+        text-decoration: none !important;
+    }
+
+    .stApp .st-key-forgot_password_button button *,
+    .stApp .st-key-back_to_login_button button *,
+    .stApp .st-key-didnt_get_code_button button * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        opacity: 1 !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 if not st.session_state.authenticated:
     st.markdown("""
     <section class="site-hero">
@@ -3560,15 +3646,22 @@ if not st.session_state.authenticated:
                     password = st.text_input("Password", type="password", key="login_password")
                     if st.form_submit_button("Login", use_container_width=True):
                         with st.spinner("Logging in..."):
-                            resp = requests.post(f"{API_URL}/api/auth/login", json={"email": email, "password": password}, timeout=30)
-                            if resp.status_code == 200:
-                                data = resp.json()
-                                persist_login(data)
-                                st.success("Logged in! Redirecting...")
-                                time.sleep(0.5)
-                                st.rerun()
-                            else:
-                                st.error(resp.json().get("detail", "Invalid credentials"))
+                            try:
+                                resp = requests.post(
+                                    f"{API_URL}/api/auth/login",
+                                    json={"email": email, "password": password},
+                                    timeout=AUTH_REQUEST_TIMEOUT,
+                                )
+                                if resp.status_code == 200:
+                                    data = resp.json()
+                                    persist_login(data)
+                                    st.success("Logged in! Redirecting...")
+                                    time.sleep(0.5)
+                                    st.rerun()
+                                else:
+                                    st.error(api_error_message(resp))
+                            except requests.RequestException as exc:
+                                st.error(request_exception_message(exc))
                 if st.button("Forgot password?", key="forgot_password_button"):
                     st.session_state.auth_mode = "forgot_password"
                     st.rerun()
@@ -3598,8 +3691,9 @@ if not st.session_state.authenticated:
                         else:
                             creating_label = "Creating admin account..." if account_type == "Administrator" else "Creating account..."
                             with st.spinner(creating_label):
-                                if account_type == "Administrator":
-                                    resp = requests.post(
+                                try:
+                                    if account_type == "Administrator":
+                                        resp = requests.post(
                                             f"{API_URL}/api/admin/signup",
                                             json={
                                                 "name": name,
@@ -3607,23 +3701,25 @@ if not st.session_state.authenticated:
                                                 "password": password,
                                                 "setup_code": setup_code,
                                             },
-                                            timeout=30,
+                                            timeout=AUTH_REQUEST_TIMEOUT,
                                         )
-                                else:
-                                    resp = requests.post(
-                                        f"{API_URL}/api/auth/signup",
-                                        json={"name": name, "email": email, "password": password},
-                                        timeout=30,
-                                    )
-                                if resp.status_code == 200:
-                                    data = resp.json()
-                                    persist_login(data)
-                                    success_label = "Admin account created! Redirecting..." if account_type == "Administrator" else "Account created! Redirecting..."
-                                    st.success(success_label)
-                                    time.sleep(0.5)
-                                    st.rerun()
-                                else:
-                                    st.error(api_error_message(resp))
+                                    else:
+                                        resp = requests.post(
+                                            f"{API_URL}/api/auth/signup",
+                                            json={"name": name, "email": email, "password": password},
+                                            timeout=AUTH_REQUEST_TIMEOUT,
+                                        )
+                                    if resp.status_code == 200:
+                                        data = resp.json()
+                                        persist_login(data)
+                                        success_label = "Admin account created! Redirecting..." if account_type == "Administrator" else "Account created! Redirecting..."
+                                        st.success(success_label)
+                                        time.sleep(0.5)
+                                        st.rerun()
+                                    else:
+                                        st.error(api_error_message(resp))
+                                except requests.RequestException as exc:
+                                    st.error(request_exception_message(exc))
     st.stop()
 
 # ---------- MAIN APP (authenticated) - website dashboard ----------
