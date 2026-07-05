@@ -3782,43 +3782,238 @@ if st.session_state.show_sidebar:
             unsafe_allow_html=True,
         )
     st.markdown('</div>', unsafe_allow_html=True)
-st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown('<div class="st-key-app_header">', unsafe_allow_html=True)
 st.markdown(
     """
     <style>
-    .stApp .st-key-app_header button,
-    .stApp .st-key-app_header button *,
-    .stApp .st-key-app_header .stButton > button,
-    .stApp .st-key-app_header .stFormSubmitButton > button,
-    .stApp .st-key-app_header .stDownloadButton > button {
+    .stApp .st-key-app_header:empty,
+    .stApp .header-nav-row:empty {
+        display: none !important;
+        min-height: 0 !important;
+        height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: 0 !important;
+        box-shadow: none !important;
+    }
+
+    .stApp .stButton button,
+    .stApp .stButton button *,
+    .stApp .stButton button [data-testid="stMarkdownContainer"],
+    .stApp .stButton button [data-testid="stMarkdownContainer"] *,
+    .stApp .stFormSubmitButton button,
+    .stApp .stFormSubmitButton button *,
+    .stApp .stFormSubmitButton button [data-testid="stMarkdownContainer"],
+    .stApp .stFormSubmitButton button [data-testid="stMarkdownContainer"] *,
+    .stApp .stDownloadButton button,
+    .stApp .stDownloadButton button *,
+    .stApp .stDownloadButton button [data-testid="stMarkdownContainer"],
+    .stApp .stDownloadButton button [data-testid="stMarkdownContainer"] * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        opacity: 1 !important;
+    }
+
+    .stApp div[data-testid="stHorizontalBlock"]:has(.st-key-header_sidebar_toggle) {
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 1rem !important;
+        flex-wrap: wrap !important;
+        background: #ffffff !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+        box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08) !important;
+        padding: 1rem 1.25rem 0.9rem 1.25rem !important;
+        margin-bottom: 0 !important;
+        border-radius: 0 0 20px 20px !important;
+    }
+
+    .stApp div[data-testid="stHorizontalBlock"]:has(.st-key-header_nav_home) {
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 0.75rem !important;
+        width: 100% !important;
+        padding-top: 1rem !important;
+        margin: 1rem 0 1.4rem 0 !important;
+        border-top: 1px solid #e2e8f0 !important;
+    }
+
+    .stApp .st-key-header_sidebar_toggle button {
+        background: #101827 !important;
+        border: 0 !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        border-radius: 8px !important;
+        min-width: 3rem !important;
+        width: 3rem !important;
+        min-height: 3rem !important;
+        height: 3rem !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+    }
+
+    .stApp .st-key-header_sidebar_toggle button *,
+    .stApp .st-key-header_sidebar_toggle button p,
+    .stApp .st-key-header_sidebar_toggle button span,
+    .stApp .st-key-header_sidebar_toggle button [data-testid="stMarkdownContainer"],
+    .stApp .st-key-header_sidebar_toggle button [data-testid="stMarkdownContainer"] * {
         color: #ffffff !important;
         -webkit-text-fill-color: #ffffff !important;
     }
 
-    .stApp .st-key-app_header .stButton > button,
-    .stApp .st-key-app_header .stFormSubmitButton > button,
-    .stApp .st-key-app_header .stDownloadButton > button {
-        background: #0f766e !important;
-        border: 1px solid #0f766e !important;
+    .stApp .st-key-header_search_query input {
+        background: #ffffff !important;
+        border: 1px solid #334155 !important;
+        border-radius: 8px !important;
+        min-height: 3.25rem !important;
+        color: #102033 !important;
+        -webkit-text-fill-color: #102033 !important;
     }
 
-    .stApp .st-key-app_header .stButton > button:hover,
-    .stApp .st-key-app_header .stFormSubmitButton > button:hover,
-    .stApp .st-key-app_header .stDownloadButton > button:hover {
+    .stApp .st-key-header_search_query input::placeholder {
+        color: #64748b !important;
+        -webkit-text-fill-color: #64748b !important;
+        opacity: 1 !important;
+    }
+
+    .stApp div[data-testid="stHorizontalBlock"]:has(.st-key-header_search_query) .stFormSubmitButton > button {
+        background: #0f766e !important;
+        border: 1px solid #0f766e !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        border-radius: 999px !important;
+        min-height: 3.25rem !important;
+        padding: 0.75rem 1.35rem !important;
+        font-weight: 800 !important;
+        box-shadow: 0 10px 22px rgba(15, 118, 110, 0.18) !important;
+    }
+
+    .stApp div[data-testid="stHorizontalBlock"]:has(.st-key-header_search_query) .stFormSubmitButton > button:hover {
         background: #115e59 !important;
         border-color: #115e59 !important;
     }
 
-    .stApp .st-key-app_header .stButton > button p,
-    .stApp .st-key-app_header .stButton > button span,
-    .stApp .st-key-app_header .stFormSubmitButton > button p,
-    .stApp .st-key-app_header .stFormSubmitButton > button span,
-    .stApp .st-key-app_header .stDownloadButton > button p,
-    .stApp .st-key-app_header .stDownloadButton > button span {
+    .stApp div[data-testid="stHorizontalBlock"]:has(.st-key-header_search_query) .stFormSubmitButton > button *,
+    .stApp div[data-testid="stHorizontalBlock"]:has(.st-key-header_search_query) .stFormSubmitButton > button p,
+    .stApp div[data-testid="stHorizontalBlock"]:has(.st-key-header_search_query) .stFormSubmitButton > button span,
+    .stApp div[data-testid="stHorizontalBlock"]:has(.st-key-header_search_query) .stFormSubmitButton > button [data-testid="stMarkdownContainer"],
+    .stApp div[data-testid="stHorizontalBlock"]:has(.st-key-header_search_query) .stFormSubmitButton > button [data-testid="stMarkdownContainer"] * {
         color: #ffffff !important;
         -webkit-text-fill-color: #ffffff !important;
+        opacity: 1 !important;
+    }
+
+    .stApp .st-key-header_nav_home button,
+    .stApp .st-key-header_nav_benchmark button,
+    .stApp .st-key-header_nav_popular button,
+    .stApp .st-key-header_nav_upload button,
+    .stApp .st-key-header_nav_admin button {
+        position: relative !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: #0f766e !important;
+        border: 1px solid #0f766e !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        border-radius: 999px !important;
+        min-height: 3.1rem !important;
+        padding: 0.75rem 1.25rem 0.75rem 2.9rem !important;
+        font-weight: 800 !important;
+        font-size: 0.95rem !important;
+        box-shadow: 0 12px 26px rgba(15, 118, 110, 0.16) !important;
+        overflow: hidden !important;
+    }
+
+    .stApp .st-key-header_nav_home button:hover,
+    .stApp .st-key-header_nav_benchmark button:hover,
+    .stApp .st-key-header_nav_popular button:hover,
+    .stApp .st-key-header_nav_upload button:hover,
+    .stApp .st-key-header_nav_admin button:hover {
+        background: #115e59 !important;
+        border-color: #115e59 !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        transform: translateY(-1px) !important;
+    }
+
+    .stApp .st-key-header_nav_home button *,
+    .stApp .st-key-header_nav_benchmark button *,
+    .stApp .st-key-header_nav_popular button *,
+    .stApp .st-key-header_nav_upload button *,
+    .stApp .st-key-header_nav_admin button *,
+    .stApp .st-key-header_nav_home button p,
+    .stApp .st-key-header_nav_benchmark button p,
+    .stApp .st-key-header_nav_popular button p,
+    .stApp .st-key-header_nav_upload button p,
+    .stApp .st-key-header_nav_admin button p,
+    .stApp .st-key-header_nav_home button span,
+    .stApp .st-key-header_nav_benchmark button span,
+    .stApp .st-key-header_nav_popular button span,
+    .stApp .st-key-header_nav_upload button span,
+    .stApp .st-key-header_nav_admin button span,
+    .stApp .st-key-header_nav_home button [data-testid="stMarkdownContainer"],
+    .stApp .st-key-header_nav_benchmark button [data-testid="stMarkdownContainer"],
+    .stApp .st-key-header_nav_popular button [data-testid="stMarkdownContainer"],
+    .stApp .st-key-header_nav_upload button [data-testid="stMarkdownContainer"],
+    .stApp .st-key-header_nav_admin button [data-testid="stMarkdownContainer"],
+    .stApp .st-key-header_nav_home button [data-testid="stMarkdownContainer"] *,
+    .stApp .st-key-header_nav_benchmark button [data-testid="stMarkdownContainer"] *,
+    .stApp .st-key-header_nav_popular button [data-testid="stMarkdownContainer"] *,
+    .stApp .st-key-header_nav_upload button [data-testid="stMarkdownContainer"] *,
+    .stApp .st-key-header_nav_admin button [data-testid="stMarkdownContainer"] * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        opacity: 1 !important;
+        margin: 0 !important;
+    }
+
+    .stApp .st-key-header_nav_home button::before,
+    .stApp .st-key-header_nav_benchmark button::before,
+    .stApp .st-key-header_nav_popular button::before,
+    .stApp .st-key-header_nav_upload button::before,
+    .stApp .st-key-header_nav_admin button::before {
+        content: "" !important;
+        display: block !important;
+        position: absolute !important;
+        left: 1.05rem !important;
+        top: 50% !important;
+        width: 1.15rem !important;
+        height: 1.15rem !important;
+        min-width: 1.15rem !important;
+        transform: translateY(-50%) !important;
+        background-color: #ffffff !important;
+        mask-size: contain !important;
+        -webkit-mask-size: contain !important;
+        mask-repeat: no-repeat !important;
+        -webkit-mask-repeat: no-repeat !important;
+        mask-position: center !important;
+        -webkit-mask-position: center !important;
+        opacity: 1 !important;
+    }
+
+    .stApp .st-key-header_nav_home button::before {
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11l9-8 9 8'/%3E%3Cpath d='M5 10v10h14V10'/%3E%3Cpath d='M9 20v-6h6v6'/%3E%3C/svg%3E") !important;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11l9-8 9 8'/%3E%3Cpath d='M5 10v10h14V10'/%3E%3Cpath d='M9 20v-6h6v6'/%3E%3C/svg%3E") !important;
+    }
+
+    .stApp .st-key-header_nav_benchmark button::before {
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19V5'/%3E%3Cpath d='M4 19h16'/%3E%3Cpath d='M8 16v-5'/%3E%3Cpath d='M12 16V8'/%3E%3Cpath d='M16 16v-7'/%3E%3Cpath d='M20 16v-3'/%3E%3C/svg%3E") !important;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19V5'/%3E%3Cpath d='M4 19h16'/%3E%3Cpath d='M8 16v-5'/%3E%3Cpath d='M12 16V8'/%3E%3Cpath d='M16 16v-7'/%3E%3Cpath d='M20 16v-3'/%3E%3C/svg%3E") !important;
+    }
+
+    .stApp .st-key-header_nav_popular button::before {
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 17l6-6 4 4 8-8'/%3E%3Cpath d='M14 7h7v7'/%3E%3C/svg%3E") !important;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 17l6-6 4 4 8-8'/%3E%3Cpath d='M14 7h7v7'/%3E%3C/svg%3E") !important;
+    }
+
+    .stApp .st-key-header_nav_upload button::before {
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12'/%3E%3Cpath d='M7 8l5-5 5 5'/%3E%3Cpath d='M5 21h14'/%3E%3C/svg%3E") !important;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12'/%3E%3Cpath d='M7 8l5-5 5 5'/%3E%3Cpath d='M5 21h14'/%3E%3C/svg%3E") !important;
+    }
+
+    .stApp .st-key-header_nav_admin button::before {
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M22 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E") !important;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M22 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E") !important;
     }
     </style>
     """,
@@ -3876,7 +4071,6 @@ with st.container():
             if st.button("Sign out", key="menu_sign_out", use_container_width=True):
                 logout()
 
-    st.markdown('<div class="header-nav-row">', unsafe_allow_html=True)
     if is_admin:
         nav_home, nav_benchmark, nav_popular, nav_admin, nav_spacer = st.columns([1.45, 1.55, 1.65, 1.15, 4.2])
     else:
@@ -3898,7 +4092,6 @@ with st.container():
         with nav_upload:
             if st.button("Upload", key="header_nav_upload", use_container_width=True):
                 go_to("Home", upload=True)
-    st.markdown('</div>', unsafe_allow_html=True)
 
 if st.session_state.header_search_feedback:
     st.caption(st.session_state.header_search_feedback)
