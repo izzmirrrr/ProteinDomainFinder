@@ -3633,24 +3633,6 @@ user_data, history = get_cached_user_state()
 avatar_url = user_data.get("picture") or "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
 is_admin = user_data.get("role") == "admin"
 
-if st.session_state.show_sidebar:
-    st.markdown(
-        """
-        <style>
-            .block-container {
-                max-width: none;
-                padding-left: 17.4rem;
-            }
-            @media (max-width: 900px) {
-                .block-container {
-                    padding-left: 1rem;
-                }
-            }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
 def go_to(page, upload=False):
     if page == "Popular Searches":
         page = "Suggestions"
@@ -3721,15 +3703,22 @@ def sidebar_nav_button(label, page, key, upload=False):
         st.markdown(
             f"""
             <style>
-                .st-key-{key} button {{
-                    background: #eef7f5 !important;
-                    color: #0f5d56 !important;
+                .stApp section[data-testid="stSidebar"]:has(.st-key-sidebar_close) .st-key-{key} button {{
+                    background: #0f766e !important;
+                    border-color: #0f766e !important;
+                    color: #ffffff !important;
                     font-weight: 800 !important;
+                    box-shadow: 0 10px 22px rgba(15, 118, 110, 0.16) !important;
                 }}
-                .st-key-{key} button p,
-                .st-key-{key} button span {{
-                    color: #0f5d56 !important;
-                    -webkit-text-fill-color: #0f5d56 !important;
+                .stApp section[data-testid="stSidebar"]:has(.st-key-sidebar_close) .st-key-{key} button p,
+                .stApp section[data-testid="stSidebar"]:has(.st-key-sidebar_close) .st-key-{key} button span,
+                .stApp section[data-testid="stSidebar"]:has(.st-key-sidebar_close) .st-key-{key} button div,
+                .stApp section[data-testid="stSidebar"]:has(.st-key-sidebar_close) .st-key-{key} button * {{
+                    color: #ffffff !important;
+                    -webkit-text-fill-color: #ffffff !important;
+                }}
+                .stApp section[data-testid="stSidebar"]:has(.st-key-sidebar_close) .st-key-{key} button::before {{
+                    background-color: #ffffff !important;
                 }}
             </style>
             """,
@@ -3741,8 +3730,7 @@ def sidebar_nav_button(label, page, key, upload=False):
         st.rerun()
 
 if st.session_state.show_sidebar:
-    st.markdown('<div class="st-key-youtube_sidebar">', unsafe_allow_html=True)
-    with st.container():
+    with st.sidebar:
         close_col, brand_col = st.columns([0.34, 1.66])
         with close_col:
             if st.button("Close menu", key="sidebar_close", help="Close menu", use_container_width=True):
@@ -3781,7 +3769,6 @@ if st.session_state.show_sidebar:
             """,
             unsafe_allow_html=True,
         )
-    st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown(
     """
@@ -4014,6 +4001,294 @@ st.markdown(
     .stApp .st-key-header_nav_admin button::before {
         -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M22 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E") !important;
         mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M22 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E") !important;
+    }
+
+    .stApp section[data-testid="stSidebar"]:has(.st-key-sidebar_close) {
+        display: block !important;
+        visibility: visible !important;
+        width: 18.25rem !important;
+        min-width: 18.25rem !important;
+        max-width: 18.25rem !important;
+        transform: translateX(0) !important;
+        z-index: 999998 !important;
+    }
+
+    .stApp section[data-testid="stSidebar"]:has(.st-key-sidebar_close) > div:first-child {
+        width: 18.25rem !important;
+        min-width: 18.25rem !important;
+        max-width: 18.25rem !important;
+        background: #ffffff !important;
+        border-right: 1px solid #e2e8f0 !important;
+        box-shadow: 16px 0 38px rgba(15, 23, 42, 0.14) !important;
+    }
+
+    .stApp section[data-testid="stSidebar"]:has(.st-key-sidebar_close) [data-testid="stSidebarContent"] {
+        background: #ffffff !important;
+        padding: 1rem 0.85rem 1.1rem 0.85rem !important;
+        overflow-x: hidden !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
+        gap: 0.22rem !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .sidebar-brand {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.65rem !important;
+        min-height: 2.75rem !important;
+        overflow: hidden !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .sidebar-brand img {
+        width: 2.35rem !important;
+        height: 2.35rem !important;
+        object-fit: contain !important;
+        border-radius: 8px !important;
+        background: #eef7f5 !important;
+        border: 1px solid #cce7e2 !important;
+        padding: 0.24rem !important;
+        flex: 0 0 auto !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .sidebar-brand strong {
+        color: #102033 !important;
+        -webkit-text-fill-color: #102033 !important;
+        font-size: 0.95rem !important;
+        line-height: 1.2 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .sidebar-section-label {
+        color: #64748b !important;
+        -webkit-text-fill-color: #64748b !important;
+        font-size: 0.72rem !important;
+        font-weight: 850 !important;
+        letter-spacing: 0.08em !important;
+        text-transform: uppercase !important;
+        margin: 1rem 0 0.35rem 0.25rem !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .stButton button {
+        position: relative !important;
+        width: 100% !important;
+        min-height: 2.65rem !important;
+        justify-content: flex-start !important;
+        text-align: left !important;
+        background: transparent !important;
+        border: 1px solid transparent !important;
+        border-radius: 8px !important;
+        box-shadow: none !important;
+        color: #102033 !important;
+        -webkit-text-fill-color: #102033 !important;
+        font-size: 0.92rem !important;
+        font-weight: 750 !important;
+        padding: 0.55rem 0.7rem 0.55rem 2.55rem !important;
+        transform: none !important;
+        overflow: hidden !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .stButton button *,
+    .stApp section[data-testid="stSidebar"] .stButton button p,
+    .stApp section[data-testid="stSidebar"] .stButton button span,
+    .stApp section[data-testid="stSidebar"] .stButton button div,
+    .stApp section[data-testid="stSidebar"] .stButton button [data-testid="stMarkdownContainer"],
+    .stApp section[data-testid="stSidebar"] .stButton button [data-testid="stMarkdownContainer"] * {
+        color: #102033 !important;
+        -webkit-text-fill-color: #102033 !important;
+        opacity: 1 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .stButton button:hover {
+        background: #eef7f5 !important;
+        border-color: #d7eee9 !important;
+        color: #0f5d56 !important;
+        -webkit-text-fill-color: #0f5d56 !important;
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .stButton button:hover *,
+    .stApp section[data-testid="stSidebar"] .stButton button:hover p,
+    .stApp section[data-testid="stSidebar"] .stButton button:hover span {
+        color: #0f5d56 !important;
+        -webkit-text-fill-color: #0f5d56 !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .st-key-sidebar_close button {
+        width: 2.65rem !important;
+        min-width: 2.65rem !important;
+        max-width: 2.65rem !important;
+        height: 2.55rem !important;
+        min-height: 2.55rem !important;
+        padding: 0 !important;
+        border-radius: 8px !important;
+        border: 1px solid #cce7e2 !important;
+        color: transparent !important;
+        -webkit-text-fill-color: transparent !important;
+        font-size: 0 !important;
+        background:
+            linear-gradient(45deg, #0f766e 0 0) center / 1.25rem 2px no-repeat,
+            linear-gradient(-45deg, #0f766e 0 0) center / 1.25rem 2px no-repeat,
+            #ffffff !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .st-key-sidebar_close button:hover {
+        background:
+            linear-gradient(45deg, #ffffff 0 0) center / 1.25rem 2px no-repeat,
+            linear-gradient(-45deg, #ffffff 0 0) center / 1.25rem 2px no-repeat,
+            #0f766e !important;
+        border-color: #0f766e !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .st-key-sidebar_close button *,
+    .stApp section[data-testid="stSidebar"] .st-key-sidebar_close button p,
+    .stApp section[data-testid="stSidebar"] .st-key-sidebar_close button span,
+    .stApp section[data-testid="stSidebar"] .st-key-sidebar_close button div {
+        display: none !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .st-key-side_home button,
+    .stApp section[data-testid="stSidebar"] .st-key-side_upload button,
+    .stApp section[data-testid="stSidebar"] .st-key-side_benchmark button,
+    .stApp section[data-testid="stSidebar"] .st-key-side_popular button,
+    .stApp section[data-testid="stSidebar"] .st-key-side_admin button,
+    .stApp section[data-testid="stSidebar"] .st-key-side_profile button,
+    .stApp section[data-testid="stSidebar"] .st-key-side_history button,
+    .stApp section[data-testid="stSidebar"] .st-key-side_downloads button {
+        padding-left: 2.65rem !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .st-key-side_home button::before,
+    .stApp section[data-testid="stSidebar"] .st-key-side_upload button::before,
+    .stApp section[data-testid="stSidebar"] .st-key-side_benchmark button::before,
+    .stApp section[data-testid="stSidebar"] .st-key-side_popular button::before,
+    .stApp section[data-testid="stSidebar"] .st-key-side_admin button::before,
+    .stApp section[data-testid="stSidebar"] .st-key-side_profile button::before,
+    .stApp section[data-testid="stSidebar"] .st-key-side_history button::before,
+    .stApp section[data-testid="stSidebar"] .st-key-side_downloads button::before {
+        content: "" !important;
+        display: block !important;
+        position: absolute !important;
+        left: 0.82rem !important;
+        top: 50% !important;
+        width: 1.12rem !important;
+        height: 1.12rem !important;
+        transform: translateY(-50%) !important;
+        background-color: #64748b !important;
+        mask-size: contain !important;
+        -webkit-mask-size: contain !important;
+        mask-repeat: no-repeat !important;
+        -webkit-mask-repeat: no-repeat !important;
+        mask-position: center !important;
+        -webkit-mask-position: center !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .st-key-side_home button:hover::before,
+    .stApp section[data-testid="stSidebar"] .st-key-side_upload button:hover::before,
+    .stApp section[data-testid="stSidebar"] .st-key-side_benchmark button:hover::before,
+    .stApp section[data-testid="stSidebar"] .st-key-side_popular button:hover::before,
+    .stApp section[data-testid="stSidebar"] .st-key-side_admin button:hover::before,
+    .stApp section[data-testid="stSidebar"] .st-key-side_profile button:hover::before,
+    .stApp section[data-testid="stSidebar"] .st-key-side_history button:hover::before,
+    .stApp section[data-testid="stSidebar"] .st-key-side_downloads button:hover::before {
+        background-color: #0f766e !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .st-key-side_home button::before {
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11l9-8 9 8'/%3E%3Cpath d='M5 10v10h14V10'/%3E%3Cpath d='M9 20v-6h6v6'/%3E%3C/svg%3E") !important;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 11l9-8 9 8'/%3E%3Cpath d='M5 10v10h14V10'/%3E%3Cpath d='M9 20v-6h6v6'/%3E%3C/svg%3E") !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .st-key-side_upload button::before {
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12'/%3E%3Cpath d='M7 8l5-5 5 5'/%3E%3Cpath d='M5 21h14'/%3E%3C/svg%3E") !important;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12'/%3E%3Cpath d='M7 8l5-5 5 5'/%3E%3Cpath d='M5 21h14'/%3E%3C/svg%3E") !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .st-key-side_benchmark button::before {
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19V5'/%3E%3Cpath d='M4 19h16'/%3E%3Cpath d='M8 16v-5'/%3E%3Cpath d='M12 16V8'/%3E%3Cpath d='M16 16v-7'/%3E%3Cpath d='M20 16v-3'/%3E%3C/svg%3E") !important;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19V5'/%3E%3Cpath d='M4 19h16'/%3E%3Cpath d='M8 16v-5'/%3E%3Cpath d='M12 16V8'/%3E%3Cpath d='M16 16v-7'/%3E%3Cpath d='M20 16v-3'/%3E%3C/svg%3E") !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .st-key-side_popular button::before {
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 17l6-6 4 4 8-8'/%3E%3Cpath d='M14 7h7v7'/%3E%3C/svg%3E") !important;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 17l6-6 4 4 8-8'/%3E%3Cpath d='M14 7h7v7'/%3E%3C/svg%3E") !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .st-key-side_admin button::before,
+    .stApp section[data-testid="stSidebar"] .st-key-side_profile button::before {
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E") !important;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E") !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .st-key-side_history button::before {
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 12a9 9 0 1 0 3-6.7'/%3E%3Cpath d='M3 3v6h6'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E") !important;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 12a9 9 0 1 0 3-6.7'/%3E%3Cpath d='M3 3v6h6'/%3E%3Cpath d='M12 7v5l3 2'/%3E%3C/svg%3E") !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .st-key-side_downloads button::before {
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/%3E%3Cpath d='M7 10l5 5 5-5'/%3E%3Cpath d='M12 15V3'/%3E%3C/svg%3E") !important;
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/%3E%3Cpath d='M7 10l5 5 5-5'/%3E%3Cpath d='M12 15V3'/%3E%3C/svg%3E") !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .sidebar-footer {
+        margin-top: 1.1rem !important;
+        padding: 0.95rem 0.25rem 0 0.25rem !important;
+        border-top: 1px solid #e2e8f0 !important;
+        display: grid !important;
+        grid-template-columns: 2.2rem minmax(0, 1fr) !important;
+        column-gap: 0.65rem !important;
+        align-items: center !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .sidebar-footer img {
+        grid-row: span 2 !important;
+        width: 2.2rem !important;
+        height: 2.2rem !important;
+        border-radius: 999px !important;
+        object-fit: cover !important;
+        border: 1px solid #d8e0e8 !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .sidebar-footer strong {
+        color: #102033 !important;
+        -webkit-text-fill-color: #102033 !important;
+        min-width: 0 !important;
+        font-size: 0.88rem !important;
+        line-height: 1.2 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .stApp section[data-testid="stSidebar"] .sidebar-footer span {
+        color: #64748b !important;
+        -webkit-text-fill-color: #64748b !important;
+        min-width: 0 !important;
+        font-size: 0.76rem !important;
+        line-height: 1.2 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .stApp div[data-testid="collapsedControl"] {
+        display: none !important;
+    }
+
+    @media (max-width: 760px) {
+        .stApp section[data-testid="stSidebar"]:has(.st-key-sidebar_close),
+        .stApp section[data-testid="stSidebar"]:has(.st-key-sidebar_close) > div:first-child {
+            width: min(18.25rem, 88vw) !important;
+            min-width: min(18.25rem, 88vw) !important;
+            max-width: min(18.25rem, 88vw) !important;
+        }
     }
     </style>
     """,
