@@ -2584,10 +2584,22 @@ st.markdown("""
         color: #0f766e !important;
         border: 1px solid #d1d5db !important;
         box-shadow: none !important;
+        font-size: 1.2rem !important;
+        line-height: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 
     .st-key-header_sidebar_toggle button::before {
         display: none !important;
+    }
+
+    .st-key-header_sidebar_toggle button span,
+    .st-key-header_sidebar_toggle button p,
+    .st-key-header_sidebar_toggle button div {
+        color: #0f766e !important;
+        -webkit-text-fill-color: #0f766e !important;
     }
 
     .st-key-app_header .stImage {
@@ -2596,7 +2608,127 @@ st.markdown("""
         min-height: 2.25rem;
         align-items: center;
     }
+
+    .stApp .st-key-app_header {
+        background: #ffffff !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+        box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08) !important;
+        padding: 1rem 1.25rem 0.9rem 1.25rem !important;
+        margin-bottom: 1.4rem !important;
+        border-radius: 0 0 20px 20px !important;
+    }
+
+    .stApp .st-key-app_header div[data-testid="stHorizontalBlock"] {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 1rem !important;
+        flex-wrap: wrap !important;
+    }
+
+    .stApp .site-brand strong {
+        color: #102033 !important;
+    }
+
+    .stApp .site-brand small {
+        color: #64748b !important;
+    }
+
+    .stApp .st-key-app_header .stTextInput input {
+        background: #f8fafc !important;
+        border: 1px solid #d1d5db !important;
+        border-radius: 999px !important;
+        min-height: 3rem !important;
+        padding: 0.8rem 1rem !important;
+        color: #102033 !important;
+    }
+
+    .stApp .st-key-app_header .stTextInput input::placeholder {
+        color: #64748b !important;
+    }
+
+    .stApp .st-key-app_header .stFormSubmitButton > button,
+    .stApp .st-key-app_header .stButton > button,
+    .stApp .st-key-app_header .stDownloadButton > button {
+        background: #0f766e !important;
+        border: 1px solid #0f766e !important;
+        color: #ffffff !important;
+        border-radius: 999px !important;
+        min-height: 3rem !important;
+        padding: 0.75rem 1.25rem !important;
+        font-weight: 700 !important;
+        box-shadow: 0 10px 22px rgba(15, 118, 110, 0.18) !important;
+    }
+
+    .stApp .st-key-app_header .stFormSubmitButton > button:hover,
+    .stApp .st-key-app_header .stButton > button:hover,
+    .stApp .st-key-app_header .stDownloadButton > button:hover {
+        background: #115e59 !important;
+        border-color: #115e59 !important;
+    }
+
+    .stApp .header-nav-row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 0.75rem !important;
+        align-items: center !important;
+        margin-top: 1rem !important;
+        padding-top: 0.9rem !important;
+        border-top: 1px solid #e2e8f0 !important;
+        width: 100% !important;
+    }
+
+    .stApp .header-nav-row .stButton > button,
+    .stApp .st-key-header_nav_home button,
+    .stApp .st-key-header_nav_benchmark button,
+    .stApp .st-key-header_nav_popular button,
+    .stApp .st-key-header_nav_upload button,
+    .stApp .st-key-header_nav_admin button {
+        background: #0f766e !important;
+        border: 1px solid #0f766e !important;
+        color: #ffffff !important;
+        border-radius: 999px !important;
+        min-height: 2.9rem !important;
+        padding: 0.7rem 1.25rem !important;
+        font-weight: 700 !important;
+        font-size: 0.95rem !important;
+        box-shadow: none !important;
+    }
+
+    .stApp .header-nav-row .stButton > button:hover,
+    .stApp .st-key-header_nav_home button:hover,
+    .stApp .st-key-header_nav_benchmark button:hover,
+    .stApp .st-key-header_nav_popular button:hover,
+    .stApp .st-key-header_nav_upload button:hover,
+    .stApp .st-key-header_nav_admin button:hover {
+        background: #115e59 !important;
+        border-color: #115e59 !important;
+    }
+
+    .stApp .st-key-header_nav_home button::before,
+    .stApp .st-key-header_nav_benchmark button::before,
+    .stApp .st-key-header_nav_popular button::before,
+    .stApp .st-key-header_nav_upload button::before,
+    .stApp .st-key-header_nav_admin button::before {
+        display: none !important;
+    }
+
+    .stApp .st-key-header_nav_home button p,
+    .stApp .st-key-header_nav_benchmark button p,
+    .stApp .st-key-header_nav_popular button p,
+    .stApp .st-key-header_nav_upload button p,
+    .stApp .st-key-header_nav_admin button p,
+    .stApp .st-key-header_nav_home button span,
+    .stApp .st-key-header_nav_benchmark button span,
+    .stApp .st-key-header_nav_popular button span,
+    .stApp .st-key-header_nav_upload button span,
+    .stApp .st-key-header_nav_admin button span {
+        color: #ffffff !important;
+    }
 </style>
+""", unsafe_allow_html=True)
+
+# ---------- SESSION STATE ----------
 """, unsafe_allow_html=True)
 
 # ---------- SESSION STATE ----------
@@ -3643,7 +3775,7 @@ st.markdown('<div class="st-key-app_header">', unsafe_allow_html=True)
 with st.container():
     menu_col, brand_col, search_col, account_col = st.columns([0.5, 3.15, 5.35, 1.45])
     with menu_col:
-        if st.button("Open menu", key="header_sidebar_toggle", help="Open menu", use_container_width=True):
+        if st.button("☰", key="header_sidebar_toggle", help="Toggle menu", use_container_width=True):
             toggle_sidebar()
             st.rerun()
     with brand_col:
