@@ -233,6 +233,16 @@ st.markdown("""
 
 API_URL = os.getenv("API_URL", "http://localhost:8000")
 
+# Ensure form submit buttons have white text on older Streamlit builds
+st.markdown("""
+<style>
+    .stFormSubmitButton > button, .stFormSubmitButton > button * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 # ---------- MODERN WEBSITE THEME OVERRIDES ----------
 st.markdown("""
 <style>
@@ -2502,10 +2512,10 @@ def restore_login_from_url():
         return
 
     try:
-        resp = requests.get(
+            resp = requests.get(
             f"{API_URL}/api/user/profile",
             headers={"Authorization": f"Bearer {token}"},
-            timeout=10,
+            timeout=30,
         )
         if resp.status_code == 200:
             profile = resp.json()
@@ -2845,14 +2855,14 @@ def fetch_user_data(token: str):
     history = []
 
     try:
-        profile_resp = requests.get(f"{API_URL}/api/user/profile", headers={"Authorization": f"Bearer {token}"}, timeout=10)
+        profile_resp = requests.get(f"{API_URL}/api/user/profile", headers={"Authorization": f"Bearer {token}"}, timeout=30)
         if profile_resp.status_code == 200:
             profile = profile_resp.json()
     except Exception:
         pass
 
     try:
-        history_resp = requests.get(f"{API_URL}/api/predictions/history", headers={"Authorization": f"Bearer {token}"}, timeout=10)
+        history_resp = requests.get(f"{API_URL}/api/predictions/history", headers={"Authorization": f"Bearer {token}"}, timeout=30)
         if history_resp.status_code == 200:
             history = history_resp.json()
     except Exception:
@@ -3062,7 +3072,7 @@ if not st.session_state.authenticated:
                             resp = requests.post(
                                 f"{API_URL}/api/auth/forgot-password",
                                 json={"email": reset_email},
-                                timeout=10,
+                                timeout=30,
                             )
                             if resp.status_code == 200:
                                 payload = resp.json()
@@ -3123,7 +3133,7 @@ if not st.session_state.authenticated:
                                             "code": reset_code,
                                             "password": new_password,
                                         },
-                                        timeout=10,
+                                        timeout=30,
                                     )
                                     if resp.status_code == 200:
                                         st.success(resp.json().get("message", "Password reset successful."))
@@ -3147,7 +3157,7 @@ if not st.session_state.authenticated:
                     password = st.text_input("Password", type="password", key="login_password")
                     if st.form_submit_button("Login", use_container_width=True):
                         with st.spinner("Logging in..."):
-                            resp = requests.post(f"{API_URL}/api/auth/login", json={"email": email, "password": password}, timeout=10)
+                            resp = requests.post(f"{API_URL}/api/auth/login", json={"email": email, "password": password}, timeout=30)
                             if resp.status_code == 200:
                                 data = resp.json()
                                 persist_login(data)
@@ -3187,20 +3197,20 @@ if not st.session_state.authenticated:
                             with st.spinner(creating_label):
                                 if account_type == "Administrator":
                                     resp = requests.post(
-                                        f"{API_URL}/api/admin/signup",
-                                        json={
-                                            "name": name,
-                                            "email": email,
-                                            "password": password,
-                                            "setup_code": setup_code,
-                                        },
-                                        timeout=10,
-                                    )
+                                            f"{API_URL}/api/admin/signup",
+                                            json={
+                                                "name": name,
+                                                "email": email,
+                                                "password": password,
+                                                "setup_code": setup_code,
+                                            },
+                                            timeout=30,
+                                        )
                                 else:
                                     resp = requests.post(
                                         f"{API_URL}/api/auth/signup",
                                         json={"name": name, "email": email, "password": password},
-                                        timeout=10,
+                                        timeout=30,
                                     )
                                 if resp.status_code == 200:
                                     data = resp.json()
@@ -3327,7 +3337,8 @@ def sidebar_nav_button(label, page, key, upload=False):
         st.rerun()
 
 if st.session_state.show_sidebar:
-    with st.container(key="youtube_sidebar"):
+    st.markdown('<div class="st-key-youtube_sidebar">', unsafe_allow_html=True)
+    with st.container():
         close_col, brand_col = st.columns([0.34, 1.66])
         with close_col:
             if st.button("Close menu", key="sidebar_close", help="Close menu", use_container_width=True):
@@ -3366,8 +3377,11 @@ if st.session_state.show_sidebar:
             """,
             unsafe_allow_html=True,
         )
+    st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
-with st.container(key="app_header"):
+st.markdown('<div class="st-key-app_header">', unsafe_allow_html=True)
+with st.container():
     menu_col, brand_col, search_col, account_col = st.columns([0.5, 3.15, 5.35, 1.45])
     with menu_col:
         if st.button("Open menu", key="header_sidebar_toggle", help="Open menu", use_container_width=True):
@@ -3404,7 +3418,7 @@ with st.container(key="app_header"):
             handle_header_search(st.session_state.header_search_query)
             st.rerun()
     with account_col:
-        with st.popover("Account", key="header_account_menu", help="Open account menu", use_container_width=True):
+        with st.expander("Account"):
             st.image(avatar_url, width=56)
             st.markdown(f"**{user_data.get('name', 'User')}**")
             st.caption(user_data.get("email", ""))
@@ -3733,7 +3747,7 @@ elif current_page == "Admin":
 
     headers = {"Authorization": f"Bearer {st.session_state.backend_token}"}
     try:
-        admin_resp = requests.get(f"{API_URL}/api/admin/users", headers=headers, timeout=10)
+        admin_resp = requests.get(f"{API_URL}/api/admin/users", headers=headers, timeout=30)
     except requests.RequestException as exc:
         st.error(f"Could not load admin users: {exc}")
         admin_resp = None
@@ -3878,7 +3892,7 @@ elif current_page == "Admin":
                     f"{API_URL}/api/admin/users/{selected_user_id}",
                     headers=headers,
                     json={"name": edit_name, "role": edit_role, "is_active": edit_active},
-                    timeout=10,
+                    timeout=30,
                 )
                 if update_resp.status_code == 200:
                     fetch_user_data.clear()
@@ -3894,7 +3908,7 @@ elif current_page == "Admin":
             delete_resp = requests.delete(
                 f"{API_URL}/api/admin/users/{selected_user_id}",
                 headers=headers,
-                timeout=10,
+                timeout=30,
             )
             if delete_resp.status_code == 200:
                 st.success(delete_resp.json().get("message", "User deleted."))
