@@ -2512,7 +2512,7 @@ def restore_login_from_url():
         return
 
     try:
-            resp = requests.get(
+        resp = requests.get(
             f"{API_URL}/api/user/profile",
             headers={"Authorization": f"Bearer {token}"},
             timeout=30,
