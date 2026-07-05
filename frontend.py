@@ -2303,6 +2303,67 @@ st.markdown("""
         opacity: 1 !important;
     }
 
+    .stButton > button,
+    .stDownloadButton > button,
+    .stFormSubmitButton > button,
+    .stButton > button *,
+    .stDownloadButton > button *,
+    .stFormSubmitButton > button * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+
+    .stButton > button,
+    .stDownloadButton > button,
+    .stFormSubmitButton > button {
+        background: linear-gradient(135deg, #0f766e 0%, #115e59 100%) !important;
+        border: none !important;
+        border-radius: 999px !important;
+        padding: 0.75rem 1.15rem !important;
+        font-weight: 700 !important;
+        min-height: 2.8rem !important;
+        box-shadow: 0 8px 20px rgba(15, 118, 110, 0.2) !important;
+        opacity: 1 !important;
+    }
+
+    .stButton > button:hover,
+    .stDownloadButton > button:hover,
+    .stFormSubmitButton > button:hover {
+        background: #115e59 !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 10px 24px rgba(15, 118, 110, 0.28) !important;
+    }
+
+    .stButton > button:disabled,
+    .stDownloadButton > button:disabled,
+    .stFormSubmitButton > button:disabled {
+        background: #5a7c6e !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        opacity: 0.7 !important;
+    }
+
+    .st-key-youtube_sidebar .stButton > button,
+    .st-key-youtube_sidebar .stDownloadButton > button,
+    .st-key-youtube_sidebar .stFormSubmitButton > button {
+        background: #0f766e !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        border: none !important;
+        border-radius: 12px !important;
+        box-shadow: none !important;
+    }
+
+    .st-key-youtube_sidebar [data-testid="stMarkdownContainer"] p,
+    .st-key-youtube_sidebar [data-testid="stMarkdownContainer"] h3,
+    .st-key-youtube_sidebar .stCaptionContainer,
+    .st-key-youtube_sidebar small {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+
     @media (max-width: 760px) {
         .st-key-youtube_sidebar {
             width: min(16rem, 88vw);
@@ -2336,6 +2397,44 @@ st.markdown("""
         .st-key-app_header div[data-testid="column"] {
             min-width: fit-content;
         }
+    }
+
+    /* Final UI button and label overrides */
+    .stButton > button,
+    .stDownloadButton > button,
+    .stFormSubmitButton > button,
+    .stButton > button *,
+    .stDownloadButton > button *,
+    .stFormSubmitButton > button * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+
+    .stButton > button,
+    .stDownloadButton > button,
+    .stFormSubmitButton > button {
+        background: linear-gradient(135deg, #0f766e 0%, #115e59 100%) !important;
+        border: none !important;
+        border-radius: 999px !important;
+        padding: 0.75rem 1.15rem !important;
+        min-height: 2.8rem !important;
+        box-shadow: 0 10px 24px rgba(15, 118, 110, 0.2) !important;
+    }
+
+    .stButton > button:hover,
+    .stDownloadButton > button:hover,
+    .stFormSubmitButton > button:hover {
+        background: #115e59 !important;
+        box-shadow: 0 12px 28px rgba(15, 118, 110, 0.28) !important;
+        transform: translateY(-1px) !important;
+    }
+
+    .stButton > button:disabled,
+    .stDownloadButton > button:disabled,
+    .stFormSubmitButton > button:disabled {
+        background: #5a7c6e !important;
+        color: #ffffff !important;
+        opacity: 0.7 !important;
     }
 </style>
 """, unsafe_allow_html=True)
