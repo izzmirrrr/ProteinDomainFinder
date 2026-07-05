@@ -1101,168 +1101,176 @@ st.markdown("""
 
     .st-key-app_header {
         background: #ffffff;
-        border-bottom: 1px solid #e5e7eb;
-        padding: 0.2rem 0 1.05rem 0;
-        margin-bottom: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+        border-radius: 0 0 18px 18px;
     }
 
     .st-key-app_header div[data-testid="stHorizontalBlock"] {
-        align-items: flex-start;
-        gap: 1.05rem;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
     }
 
-    .st-key-header_logo_menu button {
-        width: 3.65rem !important;
-        min-width: 3.65rem !important;
-        height: 3.65rem !important;
-        min-height: 3.65rem !important;
-        padding: 0 !important;
+    .site-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+    }
+
+    .site-brand-mark {
+        width: 3.1rem;
+        height: 3.1rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        background: #eef7f5;
+        border: 1px solid #d1d5db;
+    }
+
+    .site-brand-mark img {
+        width: 1.9rem;
+        height: 1.9rem;
+    }
+
+    .site-brand strong {
+        color: #102033;
+        font-size: 1rem;
+        line-height: 1.2;
+    }
+
+    .site-brand small {
+        display: block;
+        color: #64748b;
+        font-size: 0.82rem;
+        line-height: 1.25;
+    }
+
+    .st-key-app_header .stTextInput input {
+        min-height: 3.3rem !important;
         border-radius: 999px !important;
-        background:
-            linear-gradient(#111827, #111827) center 38% / 1.45rem 2px no-repeat,
-            linear-gradient(#111827, #111827) center 50% / 1.45rem 2px no-repeat,
-            linear-gradient(#111827, #111827) center 62% / 1.45rem 2px no-repeat !important;
-        color: var(--ink) !important;
-        font-size: 0.95rem !important;
-        border: 0 !important;
-        box-shadow: none !important;
+        border: 1px solid #d1d5db !important;
+        background: #f8fafc !important;
+        padding: 0.75rem 1rem !important;
+        color: #102033 !important;
+        font-size: 0.96rem !important;
     }
 
-    .st-key-sidebar_close button {
-        width: 3.65rem !important;
-        min-width: 3.65rem !important;
-        height: 3.65rem !important;
-        min-height: 3.65rem !important;
-        padding: 0 !important;
-        border-radius: 999px !important;
-        background:
-            linear-gradient(#f8fafc, #f8fafc) center 38% / 1.45rem 2px no-repeat,
-            linear-gradient(#f8fafc, #f8fafc) center 50% / 1.45rem 2px no-repeat,
-            linear-gradient(#f8fafc, #f8fafc) center 62% / 1.45rem 2px no-repeat !important;
-        color: var(--ink) !important;
-        font-size: 0.95rem !important;
-        border: 0 !important;
-        box-shadow: none !important;
-    }
-
-    .st-key-header_logo_menu button:hover,
-    .st-key-sidebar_close button:hover {
-        background-color: rgba(148, 163, 184, 0.16) !important;
-        transform: none;
-    }
-
-    .st-key-header_home_button button,
-    .st-key-header_profile button,
-    .st-key-header_profile_dropdown button,
-    .st-key-header_notification button,
-    .st-key-header_popular button,
-    .st-key-header_benchmark button,
-    .st-key-header_upload button {
-        width: 3.65rem !important;
-        min-width: 3.65rem !important;
-        height: 3.65rem !important;
-        min-height: 3.65rem !important;
-        padding: 0 !important;
-        color: transparent !important;
-        font-size: 0 !important;
-        border-radius: 999px !important;
-        justify-content: center !important;
-        border: 0 !important;
-        box-shadow: 0 8px 20px rgba(15, 118, 110, 0.18) !important;
-        background-color: #ffffff !important;
-        background-repeat: no-repeat !important;
-        background-position: center !important;
-        background-size: 1.75rem 1.75rem !important;
-    }
-
-    .st-key-header_home_button button {
-        background-image: url("https://cdn-icons-png.flaticon.com/512/2947/2947927.png") !important;
-        background-color: #ffffff !important;
-        background-size: 2rem 2rem !important;
-    }
-
-    .st-key-header_profile button {
-        background-image: url("https://cdn-icons-png.flaticon.com/512/3135/3135715.png") !important;
-    }
-
-    .st-key-header_profile_dropdown button {
-        background-image: url("https://cdn-icons-png.flaticon.com/512/3135/3135715.png") !important;
-    }
-
-    .st-key-header_notification button {
-        background-image: url("https://cdn-icons-png.flaticon.com/512/3602/3602145.png") !important;
-    }
-
-    .st-key-header_home_button button p,
-    .st-key-header_profile_dropdown button p,
-    .st-key-header_notification button p,
-    .st-key-header_popular button p,
-    .st-key-header_benchmark button p,
-    .st-key-header_upload button p,
-    .st-key-header_notification button svg {
-        display: inline-flex !important;
-        color: var(--ink) !important;
-        font-size: 0.88rem !important;
-        font-weight: 700 !important;
-        margin: 0 !important;
+    .st-key-app_header .stTextInput input::placeholder {
+        color: #64748b !important;
         opacity: 1 !important;
-        text-transform: none !important;
     }
 
-    .st-key-header_home_button button::before {
+    .st-key-app_header .stFormSubmitButton button {
+        min-height: 3.3rem !important;
+        border-radius: 999px !important;
+        padding: 0 1.25rem !important;
+        font-weight: 800 !important;
+        box-shadow: 0 8px 22px rgba(15, 118, 110, 0.18) !important;
+        background: #0f766e !important;
+        border: 1px solid #0f766e !important;
+        color: #ffffff !important;
+    }
+
+    .st-key-app_header .stFormSubmitButton button:hover {
+        background: #115e59 !important;
+        border-color: #115e59 !important;
+    }
+
+    .header-nav-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        align-items: center;
+        margin-top: 1rem;
+    }
+
+    .header-nav-row .stButton > button {
+        min-height: 2.9rem !important;
+        border-radius: 999px !important;
+        padding: 0.7rem 1.2rem !important;
+        background: #ffffff !important;
+        color: #0f766e !important;
+        border: 1px solid #c7e3db !important;
+        box-shadow: none !important;
+        font-weight: 700 !important;
+        font-size: 0.95rem !important;
+    }
+
+    .header-nav-row .stButton > button:hover {
+        background: #effaf8 !important;
+        color: #0d5e52 !important;
+        border-color: #a8d9cf !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+
+    .st-key-header_nav_home button,
+    .st-key-header_nav_benchmark button,
+    .st-key-header_nav_popular button,
+    .st-key-header_nav_upload button,
+    .st-key-header_nav_admin button {
+        width: auto !important;
+        min-width: auto !important;
+        padding: 0.7rem 1.2rem !important;
+        border-radius: 999px !important;
+        background: #ffffff !important;
+        border: 1px solid #c7e3db !important;
+        color: #0f766e !important;
+        font-size: 0.95rem !important;
+        font-weight: 700 !important;
+        box-shadow: none !important;
+    }
+
+    .st-key-header_nav_home button::before,
+    .st-key-header_nav_benchmark button::before,
+    .st-key-header_nav_popular button::before,
+    .st-key-header_nav_upload button::before,
+    .st-key-header_nav_admin button::before {
         display: none !important;
     }
 
-    .st-key-header_popular button {
-        background-image: url("https://cdn-icons-png.flaticon.com/512/1828/1828884.png") !important;
+    .st-key-header_nav_home button:hover,
+    .st-key-header_nav_benchmark button:hover,
+    .st-key-header_nav_popular button:hover,
+    .st-key-header_nav_upload button:hover,
+    .st-key-header_nav_admin button:hover {
+        background: #effaf8 !important;
+        border-color: #a8d9cf !important;
+        color: #0d5e52 !important;
+        box-shadow: none !important;
+        transform: none !important;
     }
 
-    .st-key-header_benchmark button {
-        background-image: url("https://cdn-icons-png.flaticon.com/512/1828/1828911.png") !important;
+    .st-key-header_sidebar_toggle button {
+        min-width: 2.8rem !important;
+        min-height: 2.8rem !important;
+        width: 2.8rem !important;
+        height: 2.8rem !important;
+        border-radius: 999px !important;
+        background: #effaf8 !important;
+        color: #0f766e !important;
+        border: 1px solid #c7e3db !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        font-size: 0.95rem !important;
     }
 
-    .st-key-header_upload button {
-        background-image: url("https://cdn-icons-png.flaticon.com/512/3097/3097412.png") !important;
+    .st-key-header_sidebar_toggle button::before {
+        display: none !important;
     }
 
-    .st-key-header_home_button button:hover,
-    .st-key-header_profile button:hover,
-    .st-key-header_profile_dropdown button:hover,
-    .st-key-header_notification button:hover,
-    .st-key-header_popular button:hover,
-    .st-key-header_benchmark button:hover,
-    .st-key-header_upload button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 10px 24px rgba(15, 118, 110, 0.22) !important;
-        background-color: #eef7f5 !important;
-    }
-
-    .st-key-menu_sign_out button {
-        background: #dc2626 !important;
-        color: #ffffff !important;
-        border: 0 !important;
-        box-shadow: 0 8px 18px rgba(220, 38, 38, 0.20) !important;
-    }
-
-    .st-key-menu_sign_out button:hover {
-        background: #b91c1c !important;
-        box-shadow: 0 10px 22px rgba(220, 38, 38, 0.28) !important;
-    }
-
-    .st-key-app_header [data-testid="stCaptionContainer"] {
-        color: #8b949e;
-        font-size: 1rem;
-        line-height: 1.7;
-        padding-top: 0.55rem;
-    }
-
-    .st-key-app_header .header-search {
-        min-height: 5.5rem;
-        display: flex;
-        align-items: center;
-        max-width: none;
-        font-size: 1.02rem;
-        line-height: 1.7;
+    .st-key-header_logo_menu button,
+    .st-key-sidebar_close button,
+    .st-key-header_profile button,
+    .st-key-header_profile_dropdown button,
+    .st-key-header_notification button {
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
     }
 
     .st-key-app_header .stImage {
@@ -2435,6 +2443,158 @@ st.markdown("""
         background: #5a7c6e !important;
         color: #ffffff !important;
         opacity: 0.7 !important;
+    }
+
+    /* Header top bar and nav button override */
+    .st-key-app_header {
+        background: #ffffff;
+        border-bottom: 1px solid #e2e8f0;
+        box-shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
+        padding: 1rem 1.25rem 0.95rem 1.25rem;
+        margin-bottom: 1.5rem;
+        border-radius: 0 0 20px 20px;
+    }
+
+    .st-key-app_header div[data-testid="stHorizontalBlock"] {
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .site-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        min-width: 0;
+    }
+
+    .site-brand strong {
+        color: #102033;
+        font-size: 1rem;
+        line-height: 1.2;
+    }
+
+    .site-brand small {
+        display: block;
+        color: #64748b;
+        font-size: 0.82rem;
+        line-height: 1.3;
+    }
+
+    .st-key-app_header .stTextInput input {
+        min-height: 3.05rem !important;
+        border-radius: 999px !important;
+        border: 1px solid #d1d5db !important;
+        background: #f8fafc !important;
+        padding: 0.8rem 1rem !important;
+        color: #102033 !important;
+        font-size: 0.95rem !important;
+    }
+
+    .st-key-app_header .stTextInput input::placeholder {
+        color: #64748b !important;
+        opacity: 1 !important;
+    }
+
+    .st-key-app_header .stFormSubmitButton button {
+        min-height: 3.05rem !important;
+        border-radius: 999px !important;
+        padding: 0 1.3rem !important;
+        background: #0f766e !important;
+        border: 1px solid #0f766e !important;
+        color: #ffffff !important;
+        font-weight: 800 !important;
+        box-shadow: 0 10px 24px rgba(15, 118, 110, 0.18) !important;
+    }
+
+    .st-key-app_header .stFormSubmitButton button:hover {
+        background: #115e59 !important;
+        border-color: #115e59 !important;
+    }
+
+    .header-nav-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        align-items: center;
+        margin-top: 1rem;
+        padding-top: 0.85rem;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .header-nav-row .stButton > button,
+    .st-key-header_nav_home button,
+    .st-key-header_nav_benchmark button,
+    .st-key-header_nav_popular button,
+    .st-key-header_nav_upload button,
+    .st-key-header_nav_admin button {
+        min-height: 2.95rem !important;
+        border-radius: 999px !important;
+        padding: 0.75rem 1.25rem !important;
+        background: #0f766e !important;
+        border: 1px solid #0f766e !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        font-size: 0.95rem !important;
+        box-shadow: none !important;
+    }
+
+    .header-nav-row .stButton > button:hover,
+    .st-key-header_nav_home button:hover,
+    .st-key-header_nav_benchmark button:hover,
+    .st-key-header_nav_popular button:hover,
+    .st-key-header_nav_upload button:hover,
+    .st-key-header_nav_admin button:hover {
+        background: #115e59 !important;
+        border-color: #115e59 !important;
+        color: #ffffff !important;
+        transform: none !important;
+    }
+
+    .st-key-header_nav_home button p,
+    .st-key-header_nav_benchmark button p,
+    .st-key-header_nav_popular button p,
+    .st-key-header_nav_upload button p,
+    .st-key-header_nav_admin button p,
+    .st-key-header_nav_home button span,
+    .st-key-header_nav_benchmark button span,
+    .st-key-header_nav_popular button span,
+    .st-key-header_nav_upload button span,
+    .st-key-header_nav_admin button span {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+
+    .st-key-header_nav_home button::before,
+    .st-key-header_nav_benchmark button::before,
+    .st-key-header_nav_popular button::before,
+    .st-key-header_nav_upload button::before,
+    .st-key-header_nav_admin button::before {
+        display: none !important;
+    }
+
+    .st-key-header_sidebar_toggle button {
+        min-width: 2.75rem !important;
+        min-height: 2.75rem !important;
+        width: 2.75rem !important;
+        height: 2.75rem !important;
+        border-radius: 999px !important;
+        background: #effaf8 !important;
+        color: #0f766e !important;
+        border: 1px solid #d1d5db !important;
+        box-shadow: none !important;
+    }
+
+    .st-key-header_sidebar_toggle button::before {
+        display: none !important;
+    }
+
+    .st-key-app_header .stImage {
+        display: flex;
+        justify-content: center;
+        min-height: 2.25rem;
+        align-items: center;
     }
 </style>
 """, unsafe_allow_html=True)
