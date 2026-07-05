@@ -282,7 +282,6 @@ st.markdown("""
         display: none;
     }
 
-    section[data-testid="stSidebar"],
     div[data-testid="collapsedControl"] {
         display: none !important;
     }
@@ -3695,6 +3694,23 @@ def handle_header_search(query):
 def toggle_sidebar():
     st.session_state.show_sidebar = not st.session_state.show_sidebar
 
+def handle_account_menu():
+    choice = st.session_state.get("header_account_menu", "Account")
+    if choice == "Account":
+        return
+
+    st.session_state.header_account_menu = "Account"
+    if choice == "Profile":
+        go_to("Profile")
+    elif choice == "History":
+        go_to("History Searches")
+    elif choice == "Downloads":
+        go_to("Downloads")
+    elif choice == "Admin Dashboard":
+        go_to("Admin")
+    elif choice == "Sign out":
+        logout()
+
 def sidebar_nav_button(label, page, key, upload=False):
     active = st.session_state.nav_page == page and (
         st.session_state.show_upload_panel if upload else not st.session_state.show_upload_panel
@@ -3730,6 +3746,46 @@ def sidebar_nav_button(label, page, key, upload=False):
         st.rerun()
 
 if st.session_state.show_sidebar:
+    st.markdown(
+        """
+        <style>
+        .stApp section[data-testid="stSidebar"] {
+            display: block !important;
+            visibility: visible !important;
+            width: 18.25rem !important;
+            min-width: 18.25rem !important;
+            max-width: 18.25rem !important;
+            transform: translateX(0) !important;
+            z-index: 999998 !important;
+        }
+
+        .stApp section[data-testid="stSidebar"] > div:first-child {
+            width: 18.25rem !important;
+            min-width: 18.25rem !important;
+            max-width: 18.25rem !important;
+            background: #ffffff !important;
+            border-right: 1px solid #e2e8f0 !important;
+            box-shadow: 16px 0 38px rgba(15, 23, 42, 0.14) !important;
+        }
+
+        .stApp section[data-testid="stSidebar"] [data-testid="stSidebarContent"] {
+            background: #ffffff !important;
+            padding: 1rem 0.85rem 1.1rem 0.85rem !important;
+            overflow-x: hidden !important;
+        }
+
+        @media (max-width: 760px) {
+            .stApp section[data-testid="stSidebar"],
+            .stApp section[data-testid="stSidebar"] > div:first-child {
+                width: min(18.25rem, 88vw) !important;
+                min-width: min(18.25rem, 88vw) !important;
+                max-width: min(18.25rem, 88vw) !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
     with st.sidebar:
         close_col, brand_col = st.columns([0.34, 1.66])
         with close_col:
@@ -3887,6 +3943,33 @@ st.markdown(
         color: #ffffff !important;
         -webkit-text-fill-color: #ffffff !important;
         opacity: 1 !important;
+    }
+
+    .stApp .st-key-header_account_menu div[data-baseweb="select"] > div {
+        min-height: 3.25rem !important;
+        border-radius: 8px !important;
+        border: 1px solid #d1d5db !important;
+        background: #ffffff !important;
+        color: #334155 !important;
+        -webkit-text-fill-color: #334155 !important;
+        box-shadow: none !important;
+    }
+
+    .stApp .st-key-header_account_menu div[data-baseweb="select"] > div:hover,
+    .stApp .st-key-header_account_menu div[data-baseweb="select"] > div:focus-within {
+        border-color: #0f766e !important;
+        box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12) !important;
+    }
+
+    .stApp .st-key-header_account_menu div[data-baseweb="select"] span,
+    .stApp .st-key-header_account_menu div[data-baseweb="select"] svg {
+        color: #334155 !important;
+        -webkit-text-fill-color: #334155 !important;
+    }
+
+    div[data-baseweb="popover"],
+    div[data-baseweb="menu"] {
+        z-index: 1000000 !important;
     }
 
     .stApp .st-key-header_nav_home button,
@@ -4331,20 +4414,19 @@ with st.container():
             handle_header_search(st.session_state.header_search_query)
             st.rerun()
     with account_col:
-        with st.expander("Account"):
-            st.image(avatar_url, width=56)
-            st.markdown(f"**{user_data.get('name', 'User')}**")
-            st.caption(user_data.get("email", ""))
-            if st.button("Profile", key="menu_profile", use_container_width=True):
-                go_to("Profile")
-            if st.button("History", key="menu_history", use_container_width=True):
-                go_to("History Searches")
-            if st.button("Downloads", key="menu_downloads", use_container_width=True):
-                go_to("Downloads")
-            if is_admin and st.button("Admin Dashboard", key="menu_admin", use_container_width=True):
-                go_to("Admin")
-            if st.button("Sign out", key="menu_sign_out", use_container_width=True):
-                logout()
+        account_options = ["Account", "Profile", "History", "Downloads"]
+        if is_admin:
+            account_options.append("Admin Dashboard")
+        account_options.append("Sign out")
+        if st.session_state.get("header_account_menu") not in account_options:
+            st.session_state.header_account_menu = "Account"
+        st.selectbox(
+            "Account",
+            account_options,
+            key="header_account_menu",
+            label_visibility="collapsed",
+            on_change=handle_account_menu,
+        )
 
     if is_admin:
         nav_home, nav_benchmark, nav_popular, nav_admin, nav_spacer = st.columns([1.45, 1.55, 1.65, 1.15, 4.2])
